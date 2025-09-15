@@ -1,10 +1,31 @@
-
+model-1
 module fulladder(a,b,c,s,cout);
   input a,b,c;
   output s,cout;
   wire s,cout;
   assign {cout,s}=a+b+c;
 endmodule
+
+fulladder using halfadder code
+
+module halfadder(a,b,s,c);
+    input a, b;
+    output s, c;
+
+    assign s  = a ^ b;   // XOR for sum
+    assign c = a & b;   // AND for carry
+endmodule
+
+module fulladder(a,b,c,s,cout);
+  input a,b,c;
+  output s,cout;
+   wire s,c1,c2;
+  halfadder ha1(.a(a),.b(b),.s(s1),.c(c1));
+  halfadder ha2(.a(s1),.b(c),.s(s),.c(c2));
+  or o1(cout,c1,c2);
+endmodule
+
+
 
 
 TESTBENCH code
