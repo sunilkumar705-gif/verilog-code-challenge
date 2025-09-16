@@ -1,0 +1,42 @@
+module gray_to_ex3 (
+    input  [3:0] gray,
+    output reg [3:0] ex3
+);
+    reg [3:0] bin;
+
+    always @(*) begin
+        // Gray to Binary
+        bin[3] = gray[3];
+        bin[2] = bin[3] ^ gray[2];
+        bin[1] = bin[2] ^ gray[1];
+        bin[0] = bin[1] ^ gray[0];
+
+        // Binary to Ex-3
+        ex3 = bin + 4'd3;
+    end
+endmodule
+
+
+TESTBENCH CODE
+
+module tb_gray_to_ex3;
+    reg  [3:0] gray;
+    wire [3:0] ex3;
+
+    
+    gray_to_ex3 dut (.gray(gray), .ex3(ex3));
+
+    initial begin
+        $display(" Gray | Excess-3");
+        $display("----------------");
+
+        // Apply Gray code for decimal digits 0–9
+        for (integer i = 0; i < 10; i = i + 1) begin
+            gray = (i >> 1) ^ i;  
+            #5;
+            $display("  %b  |   %b", gray, ex3);
+        end
+
+        $stop;
+    end
+endmodule
